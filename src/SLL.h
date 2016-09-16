@@ -23,14 +23,18 @@ class SLL {
     private:
         SLL_Container *head;
         unsigned int itemNum;
+        void (*printFunction)(void*);
     public:
         SLL();
         SLL(Item *head);
         ~SLL();
 
+        SLL_Container *castItem(Item *item);
         void push(Item *item);
         void append(Item *item);
         void insert(Item *item, unsigned int index);
+        void print();
+        void registerPrintFunction(void (*printFunction)(void *));
         Item *itemAt(unsigned int index);
 };
 

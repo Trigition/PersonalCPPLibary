@@ -14,6 +14,9 @@ void Item::setPrintFunction(void (*print)(void *)) {
 }
 
 void Item::printItem() {
+    if (print == NULL) {
+        return;
+    }
     this->print(this->getContainer());
 }
 
