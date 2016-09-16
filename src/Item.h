@@ -9,11 +9,14 @@
 class Item {
     private:
         void *container;
+        void (*print)(void*);
     public:
         Item ();
         Item (void *container);
         void *getContainer();
         void setContainer(void *Container);
+        void setPrintFunction(void (*print)(void *));
+        void printItem();
         virtual int compare(const void* item1, const void *item2) = 0;
         virtual void freeContainer() = 0;
 };
