@@ -1,6 +1,10 @@
 #include "Commons.h"
 #include "Item.h"
 
+Item::Item() {
+    this->setContainer(NULL);
+}
+
 Item::Item(void *container) {
     this->setContainer(container);
 }

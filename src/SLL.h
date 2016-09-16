@@ -13,9 +13,10 @@ class SLL_Container : Item{
         SLL_Container *next;
     public:
         SLL_Container (void *content);
-        ~SLL_Container();
         SLL_Container *getNext();
         void setNext(SLL_Container *newNext);
+        virtual int compare(const void* item1, const void* item2);
+        virtual void freeContainer();
 };
 
 class SLL {
