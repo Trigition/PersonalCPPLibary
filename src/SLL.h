@@ -4,38 +4,40 @@
 #include <cstddef>
 
 #include "Commons.h"
-#include "Item.h"
 /**
  * This class represents a single-linked-list.
  */
-class SLL_Container : Item{
+template<class Item>
+class SLL_Container{
     private:
+        Item *item;
         SLL_Container *next;
     public:
-        SLL_Container (void *content);
-        SLL_Container *getNext();
+        SLL_Container<Item>(Item *newItem);
+        SLL_Container<Item> *getNext();
+        Item *getItem();
         void setNext(SLL_Container *newNext);
-        virtual int compare(const void* item1, const void* item2);
-        virtual void freeContainer();
+        int compare(Item *item);
+        void freeContainer();
 };
 
+template<class Item>
 class SLL {
     private:
-        SLL_Container *head;
+        SLL_Container<Item> *head;
         unsigned int itemNum;
         void (*printFunction)(void*);
     public:
-        SLL();
-        SLL(Item *head);
-        ~SLL();
-
-        SLL_Container *castItem(Item *item);
+        SLL<Item>();
+        SLL<Item>(Item *item);
+        ~SLL<Item>();
+        
+        Item *pop();
         void push(Item *item);
         void append(Item *item);
         void insert(Item *item, unsigned int index);
-        void print();
-        void registerPrintFunction(void (*printFunction)(void *));
         Item *itemAt(unsigned int index);
+        unsigned int length();
 };
 
 

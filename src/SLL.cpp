@@ -7,32 +7,40 @@
 /**
  * This method is the main constructor for the SLL_Class
  */
-SLL_Container::SLL_Container(void *content) {
-    this->setContainer(content);
+template<class Item>
+SLL_Container<Item>::SLL_Container(Item *newItem) {
+    this->item = item;
     this->next = NULL;
 };
 
 /**
  * This method gets the next SLL Container in the list
  */
-SLL_Container * SLL_Container::getNext() {
+template<class Item>
+SLL_Container<Item> *SLL_Container<Item>::getNext() {
     return this->next;
+};
+
+template<class Item>
+Item* SLL_Container<Item>::getItem() {
+    return this->item;
 };
 
 /**
  * This method sets the next item in the list.
  */
-void SLL_Container::setNext(SLL_Container *newNext) {
+template<class Item>
+void SLL_Container<Item>::setNext(SLL_Container *newNext) {
     this->next = newNext;
 };
 
-int SLL_Container::compare(const void* item1, const void* item2) {
-    SLL_Container *SLL_C1 = (SLL_Container *) item1;
-    SLL_Container *SLL_C2 = (SLL_Container *) item2;
-    return SLL_C1 - SLL_C2;
+template<class Item>
+int SLL_Container<Item>::compare(Item *item) {
+    return this->item = item;
 }
 
-void SLL_Container::freeContainer() {
+template<class Item>
+void SLL_Container<Item>::freeContainer() {
     this->freeContainer();
 }
 
@@ -40,48 +48,57 @@ void SLL_Container::freeContainer() {
 //Define methods for SLL Class
 //============================
 
-SLL::SLL() {
+template<class Item>
+SLL<Item>::SLL() {
     this->head = NULL;
     this->itemNum = 0;
 };
 
-SLL::SLL(Item *head) {
-    this->head = (SLL_Container *)head;
+template<class Item>
+SLL<Item>::SLL(Item *head) {
+    this->head = new SLL_Container<Item>(head);
 };
 
-SLL_Container* SLL::castItem(Item *item) {
-    SLL_Container *newItem = (SLL_Container *) item;
-    if (newItem == NULL) {
-        return NULL;
-    }
-    newItem->setPrintFunction(this->printFunction);
-    return newItem;
-};
-
-void SLL::push(Item *item) {
-    SLL_Container *newItem = this->castItem(item);
-    newItem->next = this->base;
-    this->base = newItem;
-    this->itemNum++;
-};
-
-void SLL:append(Item *item) {
-    SLL_Container *newItem = this->castItem(item);
-    SLL_Container *curItem = this->head;
-    if (curItem == NULL) {
-        this->head = newItem;
+template<class Item>
+SLL<Item>::~SLL() {
+    if(this->head == NULL) {
         return;
     }
-    while(curItem->next != NULL) {
-        curItem = curItem->next;
+    SLL_Container<Item> *curItem = this->head;
+    SLL_Container<Item> *prevItem = this->head;
+    unsigned int i;
+    for(i = 0; i < this->itemNum; i++) {
+        curItem = this->head->next;
+        delete prevItem;
+        prevItem = curItem;
     }
-    curItem->next = newItem;
-    this->itemNum++;
 };
 
-void SLL::insert(Item *item, unsigned int index) {
-    SLL_Container *newItem = this->castItem(item);
-    SLL_Container *tmpItem;
+template<class Item>
+Item* SLL<Item>::pop() {
+    if (this->head == NULL) {
+        return NULL;
+    }
+    SLL_Container<Item> *rtrn = this->head;
+    this->head = this->head->next;
+    this->itemNum--;
+    return rtrn;
+};
+
+template<class Item>
+void SLL<Item>::push(Item *item) {
+  return;
+};
+
+template<class Item>
+void SLL<Item>::append(Item *item) {
+  return;
+};
+
+template<class Item>
+void SLL<Item>::insert(Item *item, unsigned int index) {
+    SLL_Container<Item> *newItem = new SLL_Container<Item>(item);
+    SLL_Container<Item> *tmpItem;
 
     //Check if index specified is even possible in this linked list
     if (index > this->itemNum) {
@@ -93,7 +110,7 @@ void SLL::insert(Item *item, unsigned int index) {
     }
 
     unsigned int i = 0;
-    SLL_Container *curItem = this->head;
+    SLL_Container<Item> *curItem = this->head;
     while(i < index) {
         curItem = curItem->next;
         i++;
@@ -110,28 +127,22 @@ void SLL::insert(Item *item, unsigned int index) {
     this->itemNum++;
 };
 
-void SLL::print() {
-    SLL_Container *curContainer = this->head;
-    while(curContainer != NULL) {
-        curContainer.printItem();
-        curContainer = curContainer->next;
-    }
-};
-
-void SLL::registerPrintFunction(void (*printFunction)(void *)) {
-    this->printFunction = printFunction;
-};
-
-Item* SLL::itemAt(unsigned int index) {
+template<class Item>
+Item* SLL<Item>::itemAt(unsigned int index) {
     if (index > this->itemNum) {
         return NULL;
     } else if (index == 0) {
-        return this->head;
+        return this->head->getItem();
     }
     unsigned int i = 0;
-    SLL_Container *curItem = this->head;
+    SLL_Container<Item> *curItem = this->head;
     while(i < index) {
         curItem = curItem->next;
     }
-    return curItem;
+    return curItem->getItem;
+};
+
+template<class Item>
+unsigned int SLL<Item>::length() {
+    return this->itemNum;
 };
