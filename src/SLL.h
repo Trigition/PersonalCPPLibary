@@ -43,18 +43,11 @@ class SLL {
                 return;
             }
             Item *curItem;
-            unsigned int i;/**
-            for(i = 0; i < this->itemNum; i++) {
-                curItem = this->head->getNext();
-                std::cout << "Freeing: " << prevItem->getItem();
-                delete prevItem->getItem();
-                prevItem = curItem;
-            }**/
+            unsigned int i;
             while(!(this->isEmpty())) {
                 curItem = this->pop();
                 delete curItem;
             };
-            
         };
         
         Item *pop() {
@@ -73,30 +66,29 @@ class SLL {
             return rtrnItem;
         };
 
-        void insert(
-            Item *item, unsigned int index) {
-            SLL_Container<Item> *newItem = new SLL_Container<Item>(item);
-            SLL_Container<Item> *tmpItem;
-
+        void insert(Item *item, unsigned int index) {
             //Check if index specified is even possible in this linked list
             if (index > this->itemNum) {
                 return;
             } else if (index == 0) {
-            //Check if we are just pushing to head;
-            this->head = newItem;
-            return;
+                //Check if we are just pushing to head;
+                this->push(item);
+                return;
             }
-          
+
+            SLL_Container<Item> *newItem = new SLL_Container<Item>(item);
+            SLL_Container<Item> *tmpItem;
+
             unsigned int i = 0;
             SLL_Container<Item> *curItem = this->head;
-            while(i < index) {
+            while(i < (index - 1)) {
                 curItem = curItem->getNext();
                 i++;
             }
             // Check if we are inserting between two elements
             if (curItem->getNext() == NULL) {
                 // We are inserting at the end of list
-                this->curItem->next = newItem;
+                curItem->setNext(newItem);
             } else {
             // We are inserting somewhere 0 < i < n
                 tmpItem = curItem->getNext();
@@ -105,6 +97,7 @@ class SLL {
             }
             this->itemNum++;
         };
+        
         void append(Item *item) {
             SLL_Container<Item> *curItem = this->head;
             SLL_Container<Item> *newItem = new SLL_Container<Item>(item);
@@ -118,6 +111,7 @@ class SLL {
             curItem->setNext(newItem);
             this->itemNum++;
         };
+        
         void push(Item *item) {
             SLL_Container<Item> *newItem = new SLL_Container<Item>(item);
             newItem->setNext(this->head);
@@ -149,5 +143,4 @@ class SLL {
             }
         };
 };
-
 #endif
