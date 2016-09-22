@@ -98,6 +98,36 @@ class SLL {
             this->itemNum++;
         };
         
+        Item *deleteAt(unsigned int index) {
+            // Do all necessary checks
+            if (this->isEmpty()) {
+                return NULL;
+            }
+            if (index == 0) {
+                return this->pop();
+            }
+
+            SLL_Container<Item> *curItem = this->head;
+            SLL_Container<Item> *prevItem;
+            SLL_Container<Item> *tmpItem;
+            Item *rtrnItem;
+
+            unsigned int i;
+            while(i < (index - 1)) {
+                prevItem = curItem;
+                curItem = curItem->getNext();
+                i++;
+            }
+            // Check if we are deleting in between two elements
+            if (curItem->getNext() == NULL) {
+                // We are deleting at end of list
+                prevItem->setNext(NULL);
+                rtrnItem = curItem->getItem();
+                delete curItem;
+                return rtrnItem;
+            }
+        };
+
         void append(Item *item) {
             SLL_Container<Item> *curItem = this->head;
             SLL_Container<Item> *newItem = new SLL_Container<Item>(item);
