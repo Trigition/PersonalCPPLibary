@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <cstddef>
-#include <type_traits>
 #include "Commons.h"
 /**
  * This class represents a single-linked-list.
@@ -36,7 +35,7 @@ class SLL {
         };
         SLL<Item>(Item *item) {
             this->head = new SLL_Container<Item>(head);
-            this->itemNum = 0;
+            this->itemNum = 1;
         };
         ~SLL<Item>() {
             if(this->head == NULL) {
